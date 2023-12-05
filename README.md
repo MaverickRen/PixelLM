@@ -4,6 +4,9 @@
 
 Beijing Jiaotong University, University of Science and Technology Beijing, ByteDance
 
+
+<img width="1000" alt="image" src='fig/results_show_v5.png'>
+
 # Highlight
 
 We present PixelLM, a novel LMM for pixel-level reasoning and understanding. PixelLM proficiently handles tasks with an arbitrary number of open-set targets and diverse reasoning complexities. Its design maintains the fundamental structure of LMMs while avoiding additional, costly segmentation models, enhancing both efficiency and transferability to diverse applications. 
@@ -14,8 +17,6 @@ PixelLM achieves new state-of-the-art results across a spectrum of benchmarks, s
 
 **Our code, model and data are under preparation, please stay tuned!**
 
-
-<img width="1000" alt="image" src='fig/results_show_v5.png'>
 
 # Introduction
 While large multimodal models (LMMs) have achieved remarkable progress, generating pixel-level masks for image reasoning tasks involving multiple open-world targets remains a challenge. To bridge this gap, we introduce PixelLM, an effective and efficient LMM for pixel-level reasoning and understanding. Central to PixelLM is a novel, lightweight pixel decoder and a comprehensive segmentation codebook. The decoder efficiently produces masks from the hidden embeddings of the codebook tokens, which encode detailed target-relevant information. With this design, PixelLM harmonizes with the structure of popular LMMs and avoids the need for additional costly segmentation models. Furthermore, we propose a target refinement loss to enhance the model's ability to differentiate between multiple targets, leading to substantially improved mask quality. To advance research in this area, we construct MUSE, a high-quality multi-target reasoning segmentation benchmark. PixelLM excels across various pixel-level image reasoning and understanding tasks, outperforming well-established methods in multiple benchmarks, including MUSE, single-
