@@ -35,7 +35,7 @@ PixelLM features a streamlined architecture, comprising four main parts: i) a pr
  and iv) a segmentation codebook. PixelLM processes image and query text, yielding interleaved text description and corresponding masks for varied target. At the core of PixelLM is the novel lightweight decoder and the holistic segmentation codebook. The codebook contains learnable tokens which encode contexts and knowledge pertinent to targets referencing at different visual scales. The pixel decoder then produces target masks based on the hidden embeddings from the codebook tokens in conjunction with image features. Thanks to this design, PixelLM can generate high-quality masks without external segmentation models, significantly boosting its efficiency. Furthermore, we propose a target refinement loss to enhance the model's capability of differentiating between multiple targets, thus further improving the mask quality.
 
 
- # Architecture
+ # MUSE dataset
 
 <img width="1000" alt="image" src='fig/data_example.png'>
 
