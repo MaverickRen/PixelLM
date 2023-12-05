@@ -19,5 +19,14 @@ PixelLM achieves new state-of-the-art results across a spectrum of benchmarks, s
 While large multimodal models (LMMs) have achieved remarkable progress, generating pixel-level masks for image reasoning tasks involving multiple open-world targets remains a challenge. To bridge this gap, we introduce PixelLM, an effective and efficient LMM for pixel-level reasoning and understanding. Central to PixelLM is a novel, lightweight pixel decoder and a comprehensive segmentation codebook. The decoder efficiently produces masks from the hidden embeddings of the codebook tokens, which encode detailed target-relevant information. With this design, PixelLM harmonizes with the structure of popular LMMs and avoids the need for additional costly segmentation models. Furthermore, we propose a target refinement loss to enhance the model's ability to differentiate between multiple targets, leading to substantially improved mask quality. To advance research in this area, we construct MUSE, a high-quality multi-target reasoning segmentation benchmark. PixelLM excels across various pixel-level image reasoning and understanding tasks, outperforming well-established methods in multiple benchmarks, including MUSE, single-
 and multi-referring segmentation. Comprehensive ablations confirm the efficacy of each proposed component.
 
-
+# Demo Video
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/sw2co_xaqPA/0.jpg)](https://www.youtube.com/watch?v=sw2co_xaqPA "PixelLM Demo")
+
+
+# Architecture
+
+<img width="1000" alt="image" src='fig/overallV3.png'>
+
+PixelLM features a streamlined architecture, comprising four main parts: i) a pretrained CLIP-ViT vision encoder 
+ which aligns with text, ii) a large language model, iii) a lightweight pixel decoder 
+ and iv) a segmentation codebook. PixelLM processes image and query text, yielding interleaved text description and corresponding masks for varied target. At the core of PixelLM is the novel lightweight decoder and the holistic segmentation codebook. The codebook contains learnable tokens which encode contexts and knowledge pertinent to targets referencing at different visual scales. The pixel decoder then produces target masks based on the hidden embeddings from the codebook tokens in conjunction with image features. Thanks to this design, PixelLM can generate high-quality masks without external segmentation models, significantly boosting its efficiency. Furthermore, we propose a target refinement loss to enhance the model's capability of differentiating between multiple targets, thus further improving the mask quality.
