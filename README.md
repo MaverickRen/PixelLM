@@ -20,5 +20,4 @@ While large multimodal models (LMMs) have achieved remarkable progress, generati
 and multi-referring segmentation. Comprehensive ablations confirm the efficacy of each proposed component.
 
 
-<iframe src="https://www.youtube.com/embed/sw2co_xaqPA?si=8iYb4dmL6MVcjbII"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<!-- <img width="1000" alt="image" src='media/teaser_github_demo.gif'> -->
