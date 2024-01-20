@@ -188,6 +188,6 @@ If you find this project useful in your research, please consider citing:
   journal={arXiv preprint arXiv:2312.02228},
   year={2023}
 }
-
+```
 ## Acknowledgement
 -  This work is built upon the [LLaVA](https://github.com/haotian-liu/LLaVA) and [LISA](https://github.com/dvlab-research/LISA?tab=readme-ov-file#dataset). 
