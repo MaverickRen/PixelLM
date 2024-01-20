@@ -28,17 +28,7 @@ from .multi_reason_seg_dataset import MultiReasonSegDataset
 
 IGNORE_INDEX = -100
 IMAGE_TOKEN_INDEX = -200
-# from data_processing import get_mask_from_json
-# from reason_seg_dataset import ReasonSegDataset
-# from refer import REFER
-# from refer_seg_dataset import ReferSegDataset
-# from sem_seg_dataset import SemSegDataset
 
-# from vqa_dataset import VQADataset
-# from multi_reason_seg_dataset import MultiReasonSegDataset
-# from instance_panoptic_segmentation import InsPanoSegDataset
-# from nyu import NYUDepthDataset
-# from gen_color_map import get_instance_color_map, get_depth_color_map
 from model.llava import conversation as conversation_lib
 # import conversation as conversation_lib
 from .utils import (DEFAULT_IM_END_TOKEN, DEFAULT_IM_START_TOKEN,
@@ -660,109 +650,5 @@ def center_crop_image(image, size):
 
     return image
 
-def visualize(image, masks, resize, depths, image_name):
-    import cv2
-    import numpy as np
-    import copy
-    from matplotlib import pyplot as plt
-    from matplotlib import cm
-    mean=torch.tensor([0.48145466, 0.4578275, 0.40821073])
-    std=torch.tensor([0.26862954, 0.26130258, 0.27577711])
-    import pdb;pdb.set_trace()
-    if masks.shape[-1] == 3:
-        h, w = masks.shape[-3], masks.shape[-2]
-    else:
-        h, w = masks.shape[-2:]
-    # import pdb;pdb.set_trace()
-    image = image[:, :resize[0], :resize[1]]
-    image = F.interpolate(
-                    image[None].float(),
-                    (h, w),
-                    mode="bilinear",
-                    align_corners=False,
-                )[0]
-    image = image.cpu().permute(1, 2, 0)
-    image = (image * std) + mean
-    image = (image * 255).int().numpy()
-    color = [np.array([0, 255, 0]), np.array([255, 0, 0]), np.array([0, 0, 255]), np.array([255, 255, 0]), np.array([255, 0, 255]), np.array([0, 255, 255]), np.array([100, 100, 0]), np.array([100, 0, 100]), np.array([0, 100, 100]), np.array([30, 30, 100])]
-    masks = masks.cpu().numpy()
-    # img_show = image
-    # img_show = (img_show * std) + mean
-    # img_show = (img_show * 255).int().numpy()
-    # _img_show = copy.deepcopy(img_show)
-    # masks_show = np.zeros([masks.shape[1], masks.shape[2], 3])
-    empty = np.zeros_like(image)
-    for i, mask in enumerate(masks):
-        if mask.ndim == 3:
-            cv2.imwrite('test.jpg', mask[:, :, ::-1])
-            empty += mask
-            fg = mask.sum(-1) > 0
-            image[fg] = image[fg] *0.5 + color[i]*0.5
-        # import pdb;pdb.set_trace()
-        else:
-            fg = mask > 0
-            image[fg] = image[fg] *0.5 + color[i]*0.5
-    cv2.imwrite('/opt/tiger/PointVIS/visualize1/mask/mask_{}.jpg'.format(image_name), empty[:, :, ::-1])
-    cv2.imwrite('/opt/tiger/PointVIS/visualize1/{}.jpg'.format(image_name), image[:, :, ::-1])
-    
-    if depths is not None and len(depths) > 0:
-        depth = (depths.float() * 10 / 255).cpu().numpy()
-        depth = ((depth / depth.max()) * 255).astype(np.uint8)
-        # depth = cm.magma(depth)
-        plt.imsave('/opt/tiger/PointVIS/visualize1/depth/depth_{}.jpg'.format(image_name), depth)
-        
-        return 
-    
 
-if __name__ == "__main__":
-    version = '/opt/tiger/PointVIS/LISA/ckpt/Llava-7B-V1-1'
-    tokenizer = transformers.AutoTokenizer.from_pretrained(
-        version,
-        cache_dir=None,
-        model_max_length=512,
-        padding_side="right",
-        use_fast=False,
-    )
-    tokenizer.pad_token = tokenizer.unk_token
-    num_added_tokens = tokenizer.add_tokens("[DEP]")
-    ret_token_idx = tokenizer("[DEP]", add_special_tokens=False).input_ids
-    dataset = HybridDataset(
-            '/opt/tiger/PointVIS/LISA/dataset',
-            tokenizer,
-            'openai/clip-vit-large-patch14',
-            samples_per_epoch=500,
-            precision='bf16',
-            image_size=1024,
-            num_classes_per_sample=3,
-            exclude_val=False,
-            dataset="sem_seg||refer_seg||reason_seg||nyu_depth",
-            sample_rate=[float(x) for x in "1,1,1,1".split(",")],
-            sem_seg_data="ade20k||cocostuff||pascal_part||paco_lvis||mapillary",
-            refer_seg_data="refclef||refcoco||refcoco+||refcocog",
-            vqa_data="llava_instruct_150k",
-            reason_seg_data="ReasonSeg|train",
-            explanatory=0.1,
-            seg_token_num=2,
-            num_classes_per_question=3,
-            pad_train_clip_images=True,
-            masks_process_with_clip=False,
-            preprocessor_config="./configs/preprocessor_448.json",
-            use_expand_question_list=True,
-            depth_token_num=2,
-            convert_to_RGB=True
-    )
-    for i in range(len(dataset)):
-        
-        output = dataset[i]
-        # RGB_mask = get_instance_color_map(output[4])
-        # _output = []
-        # for i, d in enumerate(output):
-        #     if i == 4:
-        #         _output.append(RGB_mask)
-        #     else:
-        #         _output.append(d)
-        # output = tuple(_output)
-
-        visualize(output[1], output[4], output[6], output[12], output[0].split('/')[-1])
-
-
+   

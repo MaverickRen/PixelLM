@@ -66,7 +66,7 @@ class MultiReasonSegValDataset(torch.utils.data.Dataset):
         assert split == 'val'
         print(base_image_dir)
 
-        json_file_name = "./dataset/lvis_val_gpt4v_less439_rephrase.json"
+        json_file_name = "./dataset/muse_val.json"
         with open(json_file_name, 'r') as f:
             reason_file = json.load(f)
         images = []
@@ -74,40 +74,13 @@ class MultiReasonSegValDataset(torch.utils.data.Dataset):
         questions = []
         answers = []
         
-        # for image_ann in reason_file:
-        #     image_path = os.path.join(image_root, image_ann['file_name'])
-        #     seg_list = image_ann['ann_list']
-        #     images.append(image_path)
-        #     anns.append(seg_list)
-        #     questions.append(image_ann['question'])
-        #     answers.append(image_ann['answer'])
+       
         self.reason_seg_data = reason_file
 
 
         print("number of reason_seg samples: ", len(images))
 
-        # if explanatory != -1:
-        #     self.explanatory_question_list = EXPLANATORY_QUESTION_LIST
-        #     self.img_to_explanation = {}
-        #     with open(
-        #         os.path.join(
-        #             base_image_dir,
-        #             "reason_seg",
-        #             reason_seg_data,
-        #             "explanatory",
-        #             "train.json",
-        #         )
-        #     ) as f:
-        #         items = json.load(f)
-        #     for item in items:
-        #         img_name = item["image"]
-        #         self.img_to_explanation[img_name] = {
-        #             "query": item["query"],
-        #             "outputs": item["outputs"],
-        #         }
-
-        #     print("len(self.img_to_explanation): ", len(self.img_to_explanation))
-
+       
     def __len__(self):
         return len(self.reason_seg_data)
 
@@ -248,14 +221,7 @@ class MultiReasonSegValDataset(torch.utils.data.Dataset):
         images = self.preprocess(torch.from_numpy(images).permute(2, 0, 1).contiguous(), self.img_size)
 
         image_name = image_path.split("/")[-1]
-        # if (
-        #     self.explanatory != -1
-        #     and image_name in self.img_to_explanation
-        #     and choice == 2
-        # ):
-        #     masks = torch.rand(0, *ori_size)
-        #     label = torch.ones(ori_size) * self.ignore_label
-        # else:
+      
         masks = np.stack(sampled_masks, axis=0)
         masks = torch.from_numpy(masks)
         label = torch.ones(masks.shape[1], masks.shape[2]) * self.ignore_label
@@ -266,8 +232,7 @@ class MultiReasonSegValDataset(torch.utils.data.Dataset):
                 masks = torch.zeros(0, mask_shape, mask_shape)
             else:
                 masks = transform_mask(masks, mask_shape)
-        # visualize(images, masks, resize, image_name)
-        # print(conversations)
+ 
         return (
             image_path,
             images,
@@ -283,38 +248,6 @@ class MultiReasonSegValDataset(torch.utils.data.Dataset):
             True
         )
 
-def visualize(image, masks, resize, image_name):
-    import cv2
-    import numpy as np
-    import copy
-    mean=torch.tensor([0.48145466, 0.4578275, 0.40821073])
-    std=torch.tensor([0.26862954, 0.26130258, 0.27577711])
-    h, w = masks.shape[-2:]
-    # import pdb;pdb.set_trace()
-    image = image[:, :resize[0], :resize[1]]
-    image = F.interpolate(
-                    image[None].float(),
-                    (h, w),
-                    mode="bilinear",
-                    align_corners=False,
-                )[0]
-    image = image.cpu().permute(1, 2, 0)
-    image = (image * std) + mean
-    image = (image * 255).int().numpy()
-    color = [np.array([0, 255, 0]), np.array([255, 0, 0]), np.array([0, 0, 255]), np.array([255, 255, 0]), np.array([255, 0, 255]), np.array([0, 255, 255]), np.array([100, 100, 0]), np.array([100, 0, 100]), np.array([0, 100, 100]), np.array([30, 30, 100])]
-    masks = masks.cpu().numpy()
-    # img_show = image
-    # img_show = (img_show * std) + mean
-    # img_show = (img_show * 255).int().numpy()
-    # _img_show = copy.deepcopy(img_show)
-    # masks_show = np.zeros([masks.shape[1], masks.shape[2], 3])
-    for i, mask in enumerate(masks):
-        # import pdb;pdb.set_trace()
-        fg = mask > 0
-        image[fg] = image[fg] *0.5 + color[i]*0.5
-        
-    cv2.imwrite('/mnt/bn/mmdataset/zhongwei/visualize/multi_reason_2017/{}.jpg'.format(image_name), image[:, :, ::-1])
-    
 
 def transform_mask(masks, size):
     height, width = masks.shape[-2:]
