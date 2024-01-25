@@ -13,7 +13,6 @@ from .llava.model.language_model.llava_llama import (LlavaLlamaForCausalLM,
 from .segment_anything import build_sam_vit_h
 from .segment_anything.modeling import MaskDecoder, PromptEncoder, TwoWayTransformer, LayerNorm2d, MaskDecoderMultiScale
 from utils.matcher import match_pred
-from utils.loss import L1Loss
 from typing import Any, Dict, List, Tuple
 
 def dice_loss(
