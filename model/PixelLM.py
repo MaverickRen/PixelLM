@@ -449,7 +449,7 @@ class PixelLMForCausalLM(LlavaLlamaForCausalLM):
         for i in range(len(seg_token_offset) - 1):
             start_i, end_i = seg_token_offset[i], seg_token_offset[i + 1]
             batch_pred_embeddings = pred_embeddings[start_i:end_i]
-            batch_seg_token_counts.append(seg_token_counts[offset[i]:offset[i+1]] // seg_token_num)
+            batch_seg_token_counts.append(seg_token_counts[offset[i]:offset[i+1]] // seg_token_num*feat_scale_num)
             assert len(batch_pred_embeddings) % seg_token_num == 0
             batch_pred_embeddings = batch_pred_embeddings.view(len(batch_pred_embeddings) // (seg_token_num*feat_scale_num), feat_scale_num, seg_token_num, batch_pred_embeddings.shape[-1]) #N, scale_num, seg_num, dim
             if seg_token_num > 1:
