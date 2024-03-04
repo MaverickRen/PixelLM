@@ -8,6 +8,11 @@
 
 <img width="1000" alt="image" src='fig/results_show_v5.png'>
 
+## :fire: News
+* **[2023.02.27]** Our PixelLM has been accepted by CVPR 2024!
+* **[2023.12]** We release the code and dataset.
+
+  
 # Highlight
 
 1. We present PixelLM, a novel LMM for pixel-level reasoning and understanding. PixelLM proficiently handles tasks with an arbitrary number of open-set targets and diverse reasoning complexities. Its design maintains the fundamental structure of LMMs while avoiding additional, costly segmentation models, enhancing both efficiency and transferability to diverse applications. 
