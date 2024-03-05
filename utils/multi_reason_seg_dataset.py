@@ -201,9 +201,9 @@ class MultiReasonSegDataset(torch.utils.data.Dataset):
         
                 use_assign = False
                 if text_answer is not None:
-                    _text_answer = text_answer.format(seg='[SEG]') if self.seg_token_num == 1 else text_answer.format(seg=seg_token)
                     if text_answer.count('{seg}') != len(answer_list):
                         return self[0]
+                    _text_answer = text_answer.format(seg='[SEG]') if self.seg_token_num == 1 else text_answer.format(seg=seg_token)
                     answers.append(_text_answer)
                     use_assign_list.append(False)
                 else:
