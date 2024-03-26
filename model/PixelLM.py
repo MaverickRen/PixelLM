@@ -92,7 +92,7 @@ def overlap_loss(inputs: torch.Tensor,
 
         overlap_area = overlap_area[None].repeat(n, 1, 1)
         weight = torch.ones_like(question_inputs)
-        weight[bg_area] = 0
+        weight[~overlap_area] = 0
 
         q_loss = F.binary_cross_entropy_with_logits(question_inputs, question_targets, weight=weight, reduction="none")
         q_loss = q_loss.flatten(1, 2).mean(1).sum() 
