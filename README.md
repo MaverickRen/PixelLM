@@ -2,7 +2,7 @@
 > #### Zhongwei Ren\*, Zhicheng Huang\*, Yunchao Wei<sup>&dagger;</sup>, Yao Zhao, Dongmei Fu, Jiashi Feng, and Xiaojie Jin\*<sup>&dagger;</sup><sup>&ddagger;</sup>
 > \* Equally contributing first authors, <sup>&dagger;</sup>Correspondence, <sup>&ddagger;</sup>Project Lead
 
-> Beijing Jiaotong University, University of Science and Technology Beijing, ByteDance
+> Beijing Jiaotong University, University of Science and Technology Beijing, ByteDance, Peng Cheng Laboratory
 
 <font size=7><div align='center' > <a href=https://arxiv.org/abs/2312.02228>**Paper**</a> | <a href="https://huggingface.co/maverickrzw/PixelLM-13B/tree/main">**Models**</a> | [**Training**](#training) | [**Inference**](#inference)  [**Dataset**](#dataset) | <a href="https://pixellm.github.io/">**Project Page**</a></div></font>
 
