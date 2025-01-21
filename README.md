@@ -45,7 +45,7 @@ PixelLM features a streamlined architecture, comprising four main parts: i) a pr
 
 To facilitate model training and evaluation in this area of research, we develop MUSE, the first comprehensive multi-target reasoning segmentation dataset. MUSE stands out with its open-set concepts, detailed object descriptions, complex multi-target question-answer pairs, and instance-level mask annotations. Specifically, we feed all the instance category names and corresponding bounding box coordinates in the image to GPT-4V. Using carefully crafted prompts, GPT-4V autonomously selects instances to construct question-answer pairs relevant to the image content. The left panel of the figure above illustrates the prompt employed in our GPT-4V data generation pipeline. The right panel showcases an example of the generated data.
 
-The dataset can be downloaded from this [link](https://drive.google.com/file/d/1IutofOF65azPEChVfyJWpcn3JgCfYwmA/view?usp=sharing)
+The dataset can be downloaded from this [link](https://drive.google.com/file/d/1uexi3WDKpHs6lupaLUl3TZROf2uC-YB5/view?usp=sharing)
 
 ## Installation
 ```
