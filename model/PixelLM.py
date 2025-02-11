@@ -598,21 +598,21 @@ class PixelLMForCausalLM(LlavaLlamaForCausalLM):
                 dice_loss(pred_mask, gt_mask, num_masks=gt_mask.shape[0])
                 * gt_mask.shape[0]
             )
-            mask_overlap_loss += (
-                    overlap_loss(pred_mask, gt_mask, gt_mask.shape[0], batch_seg_token_count)
-                    * gt_mask.shape[0]
-                    )
+            # mask_overlap_loss += (
+            #         overlap_loss(pred_mask, gt_mask, gt_mask.shape[0], batch_seg_token_count)
+            #         * gt_mask.shape[0]
+            #         )
             num_masks += gt_mask.shape[0]
              
             
         
         mask_bce_loss = self.bce_loss_weight * mask_bce_loss / (num_masks + 1e-8)
         mask_dice_loss = self.dice_loss_weight * mask_dice_loss / (num_masks + 1e-8)
-        mask_overlap_loss = self.bce_loss_weight * mask_overlap_loss / (num_masks + 1e-8)
+        # mask_overlap_loss = self.bce_loss_weight * mask_overlap_loss / (num_masks + 1e-8)
 
 
-        mask_loss = mask_bce_loss + mask_dice_loss + mask_overlap_loss
-        
+        # mask_loss = mask_bce_loss + mask_dice_loss + mask_overlap_loss
+        mask_loss = mask_bce_loss + mask_dice_loss
        
         loss = loss + mask_loss
 
